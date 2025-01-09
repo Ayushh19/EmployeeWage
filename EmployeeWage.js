@@ -13,13 +13,19 @@ function calculateDailyWage(hoursWorked) {
     return hoursWorked * wagePerHour;
 }
 
-// UC3: Add Part-Time Employee and Wage
+// UC3 & UC4: Get Working Hours Using Switch Case
 function getWorkingHours(attendance) {
-    if (attendance === "Present") {
-        const isPartTime = Math.floor(Math.random() * 2); // 0 or 1
-        return isPartTime === 1 ? 4 : 8; // 4 for part-time, 8 for full-time
+    if (attendance === "Absent") return 0;
+
+    const employeeType = Math.floor(Math.random() * 2); // 0 for Part-Time, 1 for Full-Time
+    switch (employeeType) {
+        case 0:
+            return 4; // Part-time hours
+        case 1:
+            return 8; // Full-time hours
+        default:
+            return 0; // No hours
     }
-    return 0; // No hours if absent
 }
 
 // Execute attendance check
