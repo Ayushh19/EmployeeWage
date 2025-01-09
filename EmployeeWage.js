@@ -32,12 +32,19 @@ function getWorkingHours(attendance) {
 const attendance = checkAttendance();
 console.log(`Employee is ${attendance}`);
 
+// Calculate Monthly Wage
+function Monthlywage(dailyWage){
+    return 20 * dailyWage;
+}
+
 // Calculate and display wage based on hours worked
 if (attendance === "Present") {
     const hoursWorked = getWorkingHours(attendance);
     const dailyWage = calculateDailyWage(hoursWorked);
+    const Monthly = Monthlywage(dailyWage);
     console.log(`Working Hours: ${hoursWorked}`);
     console.log(`Daily Wage: ₹${dailyWage}`);
+    console.log(`Monthly Wage: ₹${Monthly}`);
 } else {
     console.log("No wage for today as the employee is absent.");
 }
