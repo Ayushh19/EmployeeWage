@@ -1,85 +1,75 @@
 // Employee Wage Computation Program
 console.log("Welcome to Employee Wage Computation Program");
 
-// UC1: Check Employee Attendance
-function checkAttendance() {
-    const isPresent = Math.floor(Math.random() * 2); // Generates 0 or 1
-    return isPresent === 1 ? "Present" : "Absent";
-}
-
-// UC2: Calculate Daily Wage
-function calculateDailyWage(hoursWorked) {
-    const wagePerHour = 20; // Wage per hour
-    return hoursWorked * wagePerHour;
-}
-
-// UC3 & UC4: Get Working Hours Using Switch Case
-function getWorkingHours(attendance) {
-    if (attendance === "Absent") return 0;
-
-    const employeeType = Math.floor(Math.random() * 2); // 0 for Part-Time, 1 for Full-Time
-    switch (employeeType) {
-        case 0:
-            return 4; // Part-time hours
-        case 1:
-            return 8; // Full-time hours
-        default:
-            return 0; // No hours
+// Define the EmployeeWage Class
+class EmployeeWage {
+    constructor(wagePerHour, maxHours, maxDays) {
+        this.wagePerHour = wagePerHour; // Wage per hour
+        this.maxHours = maxHours; // Maximum working hours
+        this.maxDays = maxDays; // Maximum working days
     }
-}
 
-// UC5: Calculate Monthly Wage
-function calculateMonthlyWage(dailyWage) {
-    const workingDays = 20; // Assume 20 working days
-    return workingDays * dailyWage;
-}
+    // UC1: Check Employee Attendance
+    checkAttendance() {
+        const isPresent = Math.floor(Math.random() * 2); // Generates 0 or 1
+        return isPresent === 1 ? "Present" : "Absent";
+    }
 
-// UC6: Calculate Wages Until a Condition is Met
-function calculateWagesWithCondition(maxHours, maxDays) {
-    let totalWage = 0;
-    let totalHours = 0;
-    let totalDays = 0;
+    // UC2: Calculate Daily Wage
+    calculateDailyWage(hoursWorked) {
+        return hoursWorked * this.wagePerHour; // Wage calculation
+    }
 
-    while (totalHours < maxHours && totalDays < maxDays) {
-        totalDays++;
-        const attendance = checkAttendance();
-        const hoursWorked = getWorkingHours(attendance);
+    // UC3 & UC4: Get Working Hours Using Switch Case
+    getWorkingHours(attendance) {
+        if (attendance === "Absent") return 0; // If absent, no hours
 
-        if (hoursWorked > 0) {
-            const dailyWage = calculateDailyWage(hoursWorked);
-            console.log(
-                `Day ${totalDays}: Attendance: ${attendance}, Hours Worked: ${hoursWorked}, Daily Wage: ₹${dailyWage}`
-            );
-            totalWage += dailyWage;
-            totalHours += hoursWorked;
-        } else {
-            console.log(`Day ${totalDays}: Attendance: ${attendance}, No wage for today.`);
+        const employeeType = Math.floor(Math.random() * 2); // 0 for Part-Time, 1 for Full-Time
+        switch (employeeType) {
+            case 0:
+                return 4; // Part-time hours
+            case 1:
+                return 8; // Full-time hours
+            default:
+                return 0; // No hours
         }
     }
 
-    console.log(`Total Days Worked: ${totalDays}`);
-    console.log(`Total Hours Worked: ${totalHours}`);
-    return totalWage;
+    // UC7: Class Method to Compute Monthly and Conditional Wages
+    computeWages() {
+        let totalWage = 0; // Total wage tracker
+        let totalHours = 0; // Total hours tracker
+        let totalDays = 0; // Total days tracker
+
+        while (totalHours < this.maxHours && totalDays < this.maxDays) {
+            totalDays++;
+            const attendance = this.checkAttendance(); // Check attendance
+            const hoursWorked = this.getWorkingHours(attendance); // Get working hours
+
+            if (hoursWorked > 0) {
+                const dailyWage = this.calculateDailyWage(hoursWorked); // Calculate daily wage
+                console.log(
+                    `Day ${totalDays}: Attendance: ${attendance}, Hours Worked: ${hoursWorked}, Daily Wage: ₹${dailyWage}`
+                );
+                totalWage += dailyWage;
+                totalHours += hoursWorked;
+            } else {
+                console.log(`Day ${totalDays}: Attendance: ${attendance}, No wage for today.`);
+            }
+        }
+
+        console.log(`Total Days Worked: ${totalDays}`);
+        console.log(`Total Hours Worked: ${totalHours}`);
+        console.log(`Total Wage: ₹${totalWage}`);
+    }
 }
 
-// Execute UC5 and UC6 computations
-const attendance = checkAttendance();
-console.log(`Employee is ${attendance}`);
+// Instantiate the EmployeeWage Class
+const wagePerHour = 20;
+const maxHours = 100;
+const maxDays = 20;
 
-// UC5: Monthly Wage
-if (attendance === "Present") {
-    const hoursWorked = getWorkingHours(attendance);
-    const dailyWage = calculateDailyWage(hoursWorked);
-    const monthlyWage = calculateMonthlyWage(dailyWage);
-    console.log(`Working Hours: ${hoursWorked}`);
-    console.log(`Daily Wage: ₹${dailyWage}`);
-    console.log(`Monthly Wage: ₹${monthlyWage}`);
-} else {
-    console.log("No wage for today as the employee is absent.");
-}
+const employeeWage = new EmployeeWage(wagePerHour, maxHours, maxDays);
 
-// UC6: Wage Computation Until Condition
-const maxHours = 100; // Maximum total hours
-const maxDays = 20; // Maximum total days
-const totalConditionalWage = calculateWagesWithCondition(maxHours, maxDays);
-console.log(`Total Wage (Under Conditions): ₹${totalConditionalWage}`);
+// Call the Class Method to Compute Wages
+employeeWage.computeWages();
