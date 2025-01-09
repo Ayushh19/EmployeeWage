@@ -8,6 +8,21 @@ function checkAttendance() {
     return isPresent === 1 ? "Present" : "Absent";
 }
 
+// UC2: Calculate Daily Wage
+function calculateDailyWage(hoursWorked) {
+    const wagePerHour = 20; // Wage per hour
+    return hoursWorked * wagePerHour;
+}
+
 // Execute attendance check
 const attendance = checkAttendance();
 console.log(`Employee is ${attendance}`);
+
+// Calculate and display daily wage
+if (attendance === "Present") {
+    const fullDayHours = 8; // Full day hours
+    const dailyWage = calculateDailyWage(fullDayHours);
+    console.log(`Daily Wage: ₹${dailyWage}`);
+} else {
+    console.log("No wage for today as the employee is absent.");
+}
